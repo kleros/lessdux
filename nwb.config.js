@@ -3,8 +3,7 @@ module.exports = {
   npm: {
     esModules: true,
     umd: {
-      global: 'lessdux',
-      externals: {}
+      global: 'lessdux'
     }
   }
 }

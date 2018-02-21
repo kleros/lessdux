@@ -1,28 +1,40 @@
 {
   "name": "lessdux",
-  "version": "1.0.0",
-  "description": "Describe lessdux here",
+  "version": "0.0.1",
+  "description":
+    "A redux toolkit for getting rid of boilerplate and managing async resources painlessly.",
+  "keywords": ["redux", "toolkit", "utilities", "utils", "async"],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "umd"
-  ],
+  "files": ["es", "lib", "umd"],
+  "repository": "https://github.com/kleros/lessdux",
+  "author": "Kleros",
+  "license": "MIT",
+  "private": false,
   "scripts": {
-    "build": "nwb build-web-module",
-    "clean": "nwb clean-module",
-    "test": "nwb test",
-    "test:coverage": "nwb test --coverage",
-    "test:watch": "nwb test --server"
+    "prettify": "kleros-scripts prettify",
+    "lint": "kleros-scripts lint",
+    "start:test": "nwb test --server",
+    "test": "nwb test --coverage",
+    "test:coveralls": "coveralls < ./coverage/lcov.info",
+    "precommit": "kleros-scripts precommit",
+    "commitmsg": "kleros-scripts commitmsg",
+    "cz": "kleros-scripts cz",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "build": "nwb build-web-module"
   },
-  "dependencies": {
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
   },
   "devDependencies": {
-    "nwb": "0.21.x"
+    "coveralls": "^3.0.0",
+    "expect": "^22.4.0",
+    "husky": "^0.14.3",
+    "kleros-scripts": "^0.3.3",
+    "nwb": "0.21.x",
+    "standard-version": "^4.3.0"
   },
-  "author": "",
-  "homepage": "",
-  "license": "MIT",
-  "repository": ""
+  "dependencies": {
+    "prop-types": "^15.6.0"
+  }
 }
