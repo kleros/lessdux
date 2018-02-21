@@ -7,7 +7,6 @@
 /coverage
 
 # Production
-/demo/dist
 /es
 /lib
 /umd
