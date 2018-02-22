@@ -36,7 +36,6 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
       const typePrefixLen = typePrefix.length
       const actionTypePrefix = action.type.slice(0, typePrefixLen)
       if (typePrefix === actionTypePrefix) {
-        setTimeout(onStateChange, 1000) // We are changing the state so call the callback
         const resource = constantToCamelCase(
           action.type.slice(typePrefixLen + 1)
         )
@@ -57,6 +56,8 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
       }
     }
 
+    if (state !== newState) setTimeout(onStateChange, 1000) // We are changing the state so call the callback
+
     return newState
   }
 }
@@ -65,7 +66,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
  * Creates an initial state object with common loading/error properties and its prop-types shape.
  * @param {object} shape - The prop-types shape to use for the data property.
  * @param {{ withCreate: boolean, withUpdate: boolean, withDelete: boolean }} [options={ withCreate: false, withUpdate: false, withDelete: false }] - Options object for specifying wether the resource can be created, updated, and/or deleted.
- * @returns {{ initialState: object, shape: object }} - an object with the initial state object and its prop-types shape as properties.
+ * @returns {{ shape: object, initialState: object }} - an object with a prop-types shape and its initial state object as properties.
  */
 export function createResource(
   shape,
