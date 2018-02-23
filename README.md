@@ -36,7 +36,7 @@ This is how you might call it:
 
 ```js
 /* reducers/user.js */
-import { createReducer } from 'lessdux'
+import createReducer from 'lessdux'
 
 // Reducer
 export default createReducer(
@@ -54,7 +54,7 @@ Resources are the individual objects that you fetch from your remote services. T
 
 ```js
 /* reducers/user.js */
-import { createResource, createReducer } from 'lessdux'
+import createReducer, { createResource } from 'lessdux'
 
 // Shapes
 const {
