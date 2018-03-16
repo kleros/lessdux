@@ -1,6 +1,6 @@
 {
   "name": "lessdux",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A redux toolkit for getting rid of boilerplate and managing async resources painlessly.",
   "keywords": [
     "redux",
