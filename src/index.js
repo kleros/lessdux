@@ -31,6 +31,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
       reducerMap && reducerMap[action.type]
         ? reducerMap[action.type](state, action)
         : state
+    if (state === newState) newState = { ...state }
 
     for (const typePrefix of Object.keys(actionTypePrefixMap)) {
       const typePrefixLen = typePrefix.length
@@ -39,19 +40,54 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
         const resource = constantToCamelCase(
           action.type.slice(typePrefixLen + 1)
         )
-        if (state[resource])
-          newState = {
-            ...newState,
-            [resource]: {
-              ...newState[resource],
-              data:
-                typePrefix.slice(0, 'RECEIVE'.length) === 'RECEIVE' &&
-                (!reducerMap || !reducerMap[action.type])
-                  ? action.payload[resource]
-                  : state[resource].data,
-              ...actionTypePrefixMap[typePrefix]
-            }
+        if (state[resource]) {
+          const isReceive =
+            typePrefix.slice(0, 'RECEIVE'.length) === 'RECEIVE' &&
+            (!reducerMap || !reducerMap[action.type])
+          const collectionMod = action.payload && action.payload.collectionMod
+          const collectionResource = collectionMod && collectionMod.resource
+
+          // Action Type Prefix Mod
+          newState[resource] = {
+            ...newState[resource],
+            data: isReceive
+              ? collectionResource || action.payload[resource]
+              : state[resource].data,
+            ...actionTypePrefixMap[typePrefix]
           }
+
+          // Collection Mod
+          if (isReceive && collectionMod) {
+            const collection = collectionMod.collection
+            const collectionData = newState[collection].data
+            const collectionFind = collectionMod.find
+
+            let data = collectionData
+            if (Array.isArray(data)) {
+              const collectionIndex =
+                collectionFind && data.findIndex(collectionFind)
+
+              if (collectionIndex)
+                data = [
+                  ...data.slice(0, collectionIndex),
+                  ...(collectionResource ? [collectionResource] : []),
+                  ...data.slice(collectionIndex + 1)
+                ]
+              else if (collectionResource) data = [...data, collectionResource]
+            } else if (typeof data === 'object')
+              data = {
+                ...data,
+                [collectionFind]: collectionResource
+              }
+            else throw new TypeError('Invalid collection type.')
+
+            if (data !== collectionData)
+              newState[collection] = {
+                ...newState[collection],
+                data
+              }
+          }
+        }
         break
       }
     }
