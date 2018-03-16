@@ -132,7 +132,7 @@ export function createActions(
   resourceName,
   { withCreate = false, withUpdate = false, withDelete = false } = {}
 ) {
-  const actions = {}
+  const actions = { self: constantToCamelCase(resourceName) }
 
   for (const typePrefix of Object.keys(actionTypePrefixMap)) {
     if (/CREATE/.test(typePrefix) && !withCreate) continue
