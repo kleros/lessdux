@@ -65,7 +65,10 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
             let data = collectionData
             if (Array.isArray(data)) {
               const collectionIndex =
-                collectionFind && data.findIndex(collectionFind)
+                collectionFind &&
+                (typeof collectionFind === 'function'
+                  ? data.findIndex(collectionFind)
+                  : collectionFind)
 
               if (collectionIndex)
                 data = [
