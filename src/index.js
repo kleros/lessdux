@@ -44,7 +44,9 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           const isReceive =
             typePrefix.slice(0, 'RECEIVE'.length) === 'RECEIVE' &&
             (!reducerMap || !reducerMap[action.type])
-          const collectionMod = action.payload && action.payload.collectionMod
+          const collectionMod = action.payload
+            ? action.payload.collectionMod
+            : null
           const collectionResource = collectionMod && collectionMod.resource
 
           // Action Type Prefix Mod
@@ -57,7 +59,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           }
 
           // Collection Mod
-          if (isReceive && collectionMod) {
+          if (collectionMod && isReceive) {
             const collection = collectionMod.collection
             const collectionData = newState[collection].data
             const collectionFind = collectionMod.find
@@ -70,7 +72,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
                   ? data.findIndex(collectionFind)
                   : collectionFind)
 
-              if (collectionIndex)
+              if (collectionIndex !== undefined && collectionIndex !== null)
                 data = [
                   ...data.slice(0, collectionIndex),
                   ...(collectionResource ? [collectionResource] : []),
