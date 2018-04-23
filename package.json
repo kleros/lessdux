@@ -1,21 +1,12 @@
 {
   "name": "lessdux",
-  "version": "0.4.1",
-  "description": "A redux toolkit for getting rid of boilerplate and managing async resources painlessly.",
-  "keywords": [
-    "redux",
-    "toolkit",
-    "utilities",
-    "utils",
-    "async"
-  ],
+  "version": "0.4.2",
+  "description":
+    "A redux toolkit for getting rid of boilerplate and managing async resources painlessly.",
+  "keywords": ["redux", "toolkit", "utilities", "utils", "async"],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "umd"
-  ],
+  "files": ["es", "lib", "umd"],
   "repository": "https://github.com/kleros/lessdux",
   "author": "Kleros",
   "license": "MIT",
@@ -33,9 +24,7 @@
     "build": "nwb build-web-module"
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
