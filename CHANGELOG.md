@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+
+# [0.6.0](https://github.com/kleros/lessdux/compare/v0.5.0...v0.6.0) (2018-04-24)
+
+### Features
+
+* **collection-mod:** improve parallel updates ([b21b39d](https://github.com/kleros/lessdux/commit/b21b39d))
+
 <a name="0.5.0"></a>
 
 # [0.5.0](https://github.com/kleros/lessdux/compare/v0.4.2...v0.5.0) (2018-04-24)
