@@ -128,9 +128,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
                 newState[collection] = {
                   ...newState[collection],
                   updating: Array.isArray(newStateUpdating)
-                    ? Array.from(
-                        new Set([...newStateUpdating, ...collectionUpdating])
-                      )
+                    ? [...newStateUpdating, ...collectionUpdating]
                     : collectionUpdating
                 }
               }
