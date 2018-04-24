@@ -116,10 +116,12 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
                   newState[collection] = {
                     ...newState[collection],
                     updating: Array.isArray(newStateUpdating)
-                      ? [
-                          ...newStateUpdating.slice(0, updatingIndex),
-                          ...newStateUpdating.slice(updatingIndex + 1)
-                        ]
+                      ? newStateUpdating.length === 1
+                        ? false
+                        : [
+                            ...newStateUpdating.slice(0, updatingIndex),
+                            ...newStateUpdating.slice(updatingIndex + 1)
+                          ]
                       : false
                   }
               } else {
