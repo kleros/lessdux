@@ -115,14 +115,13 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
                 if (updatingIndex !== -1)
                   newState[collection] = {
                     ...newState[collection],
-                    updating: Array.isArray(newStateUpdating)
-                      ? newStateUpdating.length === 1
+                    updating:
+                      newStateUpdating.length === 1
                         ? false
                         : [
                             ...newStateUpdating.slice(0, updatingIndex),
                             ...newStateUpdating.slice(updatingIndex + 1)
                           ]
-                      : false
                   }
               } else {
                 // Add resource's ID to the collection's updating list
