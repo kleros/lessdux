@@ -59,38 +59,81 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           }
 
           // Collection Mod
-          if (collectionMod && isReceive) {
-            const collection = collectionMod.collection
-            const collectionData = newState[collection].data
-            const collectionFind = collectionMod.find
+          if (collectionMod) {
+            const {
+              collection,
+              find: collectionFind,
+              updating: collectionUpdating
+            } = collectionMod
+            const { data: newStateData, updating: newStateUpdating } = newState[
+              collection
+            ]
 
-            let data = collectionData
-            if (Array.isArray(data)) {
-              const collectionIndex =
-                collectionFind &&
-                (typeof collectionFind === 'function'
-                  ? data.findIndex(collectionFind)
-                  : collectionFind)
+            // Receive collection mod
+            if (isReceive) {
+              // Add or replace resource in collection
+              let data = newStateData
+              if (Array.isArray(data)) {
+                const collectionIndex =
+                  collectionFind &&
+                  (typeof collectionFind === 'function'
+                    ? data.findIndex(collectionFind)
+                    : collectionFind)
 
-              if (collectionIndex !== undefined && collectionIndex !== null)
-                data = [
-                  ...data.slice(0, collectionIndex),
-                  ...(collectionResource ? [collectionResource] : []),
-                  ...data.slice(collectionIndex + 1)
-                ]
-              else if (collectionResource) data = [...data, collectionResource]
-            } else if (typeof data === 'object')
-              data = {
-                ...data,
-                [collectionFind]: collectionResource
+                if (collectionIndex !== undefined && collectionIndex !== null)
+                  data = [
+                    ...data.slice(0, collectionIndex),
+                    ...(collectionResource ? [collectionResource] : []),
+                    ...data.slice(collectionIndex + 1)
+                  ]
+                else if (collectionResource)
+                  data = [...data, collectionResource]
+              } else if (typeof data === 'object')
+                data = {
+                  ...data,
+                  [collectionFind]: collectionResource
+                }
+              else throw new TypeError('Invalid collection type.')
+
+              if (data !== newStateData)
+                newState[collection] = {
+                  ...newState[collection],
+                  data
+                }
+            }
+
+            // Update collection mod
+            if (collectionUpdating) {
+              if (
+                isReceive ||
+                typePrefix.slice(0, 'FAIL_UPDATE'.length) === 'FAIL_UPDATE'
+              ) {
+                // Remove the received or failed to update resource's ID from the collection's updating list
+                const updatingIndex = newStateUpdating.indexOf(
+                  collectionUpdating
+                )
+                if (updatingIndex !== -1)
+                  newState[collection] = {
+                    ...newState[collection],
+                    updating: Array.isArray(newStateUpdating)
+                      ? [
+                          ...newStateUpdating.slice(0, updatingIndex),
+                          ...newStateUpdating.slice(updatingIndex + 1)
+                        ]
+                      : false
+                  }
+              } else {
+                // Add resource's ID to the collection's updating list
+                newState[collection] = {
+                  ...newState[collection],
+                  updating: Array.isArray(newStateUpdating)
+                    ? Array.from(
+                        new Set([...newStateUpdating, ...collectionUpdating])
+                      )
+                    : collectionUpdating
+                }
               }
-            else throw new TypeError('Invalid collection type.')
-
-            if (data !== collectionData)
-              newState[collection] = {
-                ...newState[collection],
-                data
-              }
+            }
           }
         }
         break
@@ -126,7 +169,10 @@ export function createResource(
       failedLoading: PropTypes.bool.isRequired,
       ...(withUpdate
         ? {
-            updating: PropTypes.bool.isRequired,
+            updating: PropTypes.oneOfType([
+              PropTypes.bool,
+              PropTypes.arrayOf(PropTypes.number.isRequired)
+            ]).isRequired,
             failedUpdating: PropTypes.bool.isRequired
           }
         : null),
@@ -217,7 +263,8 @@ export function renderIf(
 
   if (resource.creating) return creating || loading
   if (resource.loading) return loading
-  if (resource.updating) return updating || loading
+  if (resource.updating && !Array.isArray(resource.updating))
+    return updating || loading
   if (resource.deleting) return deleting || loading
 
   if (extraFailedValues && extraFailedValues.some(v => v))
