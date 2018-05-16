@@ -273,7 +273,7 @@ export function renderIf(
 
   if (resource.data === null || resource.data === undefined)
     return failedLoading
-  if (extraValues && extraValues.some(v => v === null && v === undefined))
+  if (extraValues && extraValues.some(v => v === null || v === undefined))
     return failedLoadingExtra || failedLoading
 
   return done
