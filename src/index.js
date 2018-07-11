@@ -124,7 +124,7 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
                           ]
                   }
               } else {
-                // Add resource's ID to the collection's updating list
+                // Add resources' IDs to the collection's updating list
                 newState[collection] = {
                   ...newState[collection],
                   updating: Array.isArray(newStateUpdating)
