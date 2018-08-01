@@ -54,9 +54,13 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           newState[resource] = {
             ...newState[resource],
             data: isReceive
-              ? collectionMod.resource || action.payload[resource]
+              ? collectionMod
+                ? collectionMod.resource
+                : action.payload[resource]
               : state[resource].data,
-            error: isFail ? collectionMod.error || action.payload : null,
+            error: isFail
+              ? collectionMod ? collectionMod.error : action.payload
+              : null,
             ...actionTypePrefixMap[typePrefix]
           }
 
