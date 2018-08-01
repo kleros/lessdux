@@ -41,20 +41,22 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           action.type.slice(typePrefixLen + 1)
         )
         if (state[resource]) {
+          const notHandled = !reducerMap || !reducerMap[action.type]
           const isReceive =
-            typePrefix.slice(0, 'RECEIVE'.length) === 'RECEIVE' &&
-            (!reducerMap || !reducerMap[action.type])
+            notHandled && typePrefix.slice(0, 'RECEIVE'.length) === 'RECEIVE'
+          const isFail =
+            notHandled && typePrefix.slice(0, 'FAIL'.length) === 'FAIL'
           const collectionMod = action.payload
             ? action.payload.collectionMod
             : null
-          const collectionResource = collectionMod && collectionMod.resource
 
           // Action Type Prefix Mod
           newState[resource] = {
             ...newState[resource],
             data: isReceive
-              ? collectionResource || action.payload[resource]
+              ? collectionMod.resource || action.payload[resource]
               : state[resource].data,
+            error: isFail ? collectionMod.error || action.payload : null,
             ...actionTypePrefixMap[typePrefix]
           }
 
@@ -62,8 +64,9 @@ export default function createReducer(initialState, reducerMap, onStateChange) {
           if (collectionMod) {
             const {
               collection,
-              find: collectionFind,
-              updating: collectionUpdating
+              resource: collectionResource,
+              updating: collectionUpdating,
+              find: collectionFind
             } = collectionMod
             const { data: newStateData, updating: newStateUpdating } = newState[
               collection
@@ -165,6 +168,7 @@ export function createResource(
         : null),
       loading: PropTypes.bool.isRequired,
       data: shape,
+      error: PropTypes.instanceOf(Error),
       failedLoading: PropTypes.bool.isRequired,
       ...(withUpdate
         ? {
@@ -191,6 +195,7 @@ export function createResource(
         : null),
       loading: false,
       data: null,
+      error: null,
       failedLoading: false,
       ...(withUpdate
         ? {
