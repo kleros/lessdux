@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+
+# [0.8.0](https://github.com/kleros/lessdux/compare/v0.7.3...v0.8.0) (2018-08-01)
+
+### Features
+
+* add errors ([60409b8](https://github.com/kleros/lessdux/commit/60409b8))
+* improve comment ([d211871](https://github.com/kleros/lessdux/commit/d211871))
+
 <a name="0.7.3"></a>
 
 ## [0.7.3](https://github.com/kleros/lessdux/compare/v0.7.2...v0.7.3) (2018-05-16)
