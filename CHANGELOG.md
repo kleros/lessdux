@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.2"></a>
+
+## [0.8.2](https://github.com/kleros/lessdux/compare/v0.8.1...v0.8.2) (2018-08-01)
+
+### Bug Fixes
+
+* null guard ([e45cb9a](https://github.com/kleros/lessdux/commit/e45cb9a))
+
 <a name="0.8.1"></a>
 
 ## [0.8.1](https://github.com/kleros/lessdux/compare/v0.8.0...v0.8.1) (2018-08-01)
