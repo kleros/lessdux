@@ -166,7 +166,7 @@ const StatusesList = ({ statuses }) => (
     <ul>
       <RenderIf
         loading={<Spinner />} // Rendered while loading
-        data={statuses.data && statuses.data.map(s => <li>{s}</li>)} // Rendered when data is ready
+        done={statuses.data && statuses.data.map(s => <li>{s}</li>)} // Rendered when data is ready
         failedLoading="There was an error loading your statuses..." // Rendered on errors
       />
     </ul>
@@ -182,21 +182,21 @@ export default StatusesList
 
 This is the full list of props `RenderIf` can receive:
 
-* `resource // The resource object shape, (required)`
-* `creating // Render while creating`
-* `loading // Render while loading`
-* `updating // Render while updating`
-* `deleting // Render while deleting`
-* `done // Render when done and data is ready`
-* `failedCreating // Render on creating failure`
-* `failedLoading // Render on loading failure`
-* `failedUpdating // Render on updating failure`
-* `failedDeleting // Render on deleting failure`
-* `loadingExtra // Render when any value in extraLoadingValues is true, (defaults to loading prop)`
-* `failedLoadingExtra // Render when any value in extraFailedValues is true, (defaults to failedLoading prop)`
-* `extraLoadingValues // Array of extra values that if truthy, signify that the resource is still loading`
-* `extraValues // Array of extra values that if null or undefined signify that the resource failed to load`
-* `extraFailedValues // Array of extra values that if truthy, signify that the resource failed loading`
+- `resource // The resource object shape, (required)`
+- `creating // Render while creating`
+- `loading // Render while loading`
+- `updating // Render while updating`
+- `deleting // Render while deleting`
+- `done // Render when done and data is ready`
+- `failedCreating // Render on creating failure`
+- `failedLoading // Render on loading failure`
+- `failedUpdating // Render on updating failure`
+- `failedDeleting // Render on deleting failure`
+- `loadingExtra // Render when any value in extraLoadingValues is true, (defaults to loading prop)`
+- `failedLoadingExtra // Render when any value in extraFailedValues is true, (defaults to failedLoading prop)`
+- `extraLoadingValues // Array of extra values that if truthy, signify that the resource is still loading`
+- `extraValues // Array of extra values that if null or undefined signify that the resource failed to load`
+- `extraFailedValues // Array of extra values that if truthy, signify that the resource failed loading`
 
 ## Example Usage with `redux-saga`
 
